@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
-    <http:listener-config name="Http_Listener_Config">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
-    <apikit:config name="rt-group-accounts-api-config" api="resource::14aa3bd5-f1cf-4a0d-bf9b-79490b117c5d:rt-group-accounts-api:2.0.0:raml:zip:rt-group-accounts-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    
+    <apikit:config name="rt-group-accounts-api-config" api="resource::14aa3bd5-f1cf-4a0d-bf9b-79490b117c5d:rt-group-accounts-api:2.0.1:raml:zip:rt-group-accounts-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="rt-group-accounts-api-main">
         <http:listener config-ref="Http_Listener_Config" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -127,7 +125,7 @@ output application/json
         <set-variable value="#[message.attributes.queryParams.&quot;type&quot;]" doc:name="setType" doc:id="63e9b847-003d-49fe-9fa8-401cda13b37c" variableName="setType" />
         <flow-ref doc:name="getAccounts" doc:id="646acbed-22e6-4c57-a340-2ea15bbee936" name="getAccounts" />
     </flow>
-    <flow name="post:\accounts:application\json:rt-group-accounts-api-config">
+    <flow name="post:\accounts">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -138,6 +136,7 @@ output application/json
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="e3d97656-da60-4ee1-af97-7cec16f3228e" />
     </flow>
     <flow name="put:\accounts\(ID):application\json:rt-group-accounts-api-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
@@ -185,7 +184,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="get:\accounts\(ID)">
-		<set-variable value="#[message.attributes.uriParams.ID]" doc:name="setID" doc:id="a47f04c0-1a36-4ebd-9f62-5c65e19eef14" variableName="setID"/>
-		<flow-ref doc:name="Flow Reference" doc:id="091a2862-3b4a-4d0d-8d6f-394c1131151e" name="getAccountByID"/>
+		<set-variable value="#[message.attributes.uriParams.ID]" doc:name="setID" doc:id="a47f04c0-1a36-4ebd-9f62-5c65e19eef14" variableName="setID" />
+		<flow-ref doc:name="Flow Reference" doc:id="091a2862-3b4a-4d0d-8d6f-394c1131151e" name="getAccountByID" />
     </flow>
 </mule>

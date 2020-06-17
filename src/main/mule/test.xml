@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="getAccountsProxy" doc:id="ff468de8-00fb-4745-8c00-d7d6f4fe8289" >
+		<http:listener doc:name="getAccounts" doc:id="ac63adbd-97ed-4897-be75-ac3e375762c4" config-ref="HTTP_Listener_config_test" path="/accounts" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request" doc:id="c215d6cc-0857-4875-aa58-36c5f493e2d3" config-ref="HTTP_Request_configuration" path="/accounts">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requester-ID" : "XYZ"
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"type" : "personal"
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+	<flow name="getAccountsByIdProxy" doc:id="b4e465b9-acae-4321-90a9-74710f150ddb" >
+		<http:listener doc:name="getAccountsByID" doc:id="4b554467-9956-4058-b15c-0a51d055d006" path="/accounts/{ID}" config-ref="HTTP_Listener_config_test" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request" doc:id="e8ad2da3-1634-439a-b06b-e083a8dfc0d4" config-ref="HTTP_Request_configuration" path="/accounts/{ID}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requester-ID" : "XYZ"
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"ID" : "4400"
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+	<flow name="post" doc:id="4be0c70f-a56c-4185-90b5-a648fa9e3d0c" >
+		<http:listener doc:name="Listener" doc:id="d66f6092-ef7a-40f3-bc03-e1c052d5cf26" config-ref="HTTP_Listener_config_test" path="/accounts" allowedMethods="POST" outputMimeType="application/json"/>
+		<set-payload value='#[payload default {
+    "firstName": "Alice",
+    "lastName": "Green",
+    "address": "77 Geary St., San Francisco",
+    "postal": "94108",
+	"country": "USA",
+	"miles": 1000,
+    "creationDate": "2017-08-23T00:52:42",
+	"accountType": "business"
+  }]' doc:name="Set Payload" doc:id="b9cabf05-cdcc-40aa-a44f-f521154d8977" />
+		<http:request method="POST" doc:name="Request" doc:id="997d3036-fc98-443b-96e5-c33e132ac9b6" config-ref="HTTP_Request_configuration" path="/accounts">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requester-ID" : "XYZ"
+}]]]></http:headers>
+		</http:request>
+	</flow>
+	<flow name="Delete" doc:id="c258e423-a082-43a8-b44b-ca450df0c2d2" >
+		<http:listener doc:name="Listener" doc:id="9ffdfd5c-8952-4546-9f36-2ba8f48f278f" config-ref="HTTP_Listener_config_test" path="/accounts/{ID}" allowedMethods="DELETE"/>
+		<http:request method="DELETE" doc:name="Request" doc:id="3dc615c5-8535-4354-8f64-c1f48ed50a87" config-ref="HTTP_Request_configuration" path="/accounts/{ID}" outputMimeType="application/json">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requester-ID" : "XYZ"
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"ID" : "4400"
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+	<flow name="PUT" doc:id="be08c2b0-db07-4345-9fd9-d7809cee5739" >
+		<http:listener doc:name="Listener" doc:id="5b59b3a3-23fb-4bac-96d4-b4fc90c6b7f3" config-ref="HTTP_Listener_config_test" path="/accounts/{ID}" allowedMethods="PUT"/>
+		<set-payload value='#[payload default {
+    "firstName": "Alice",
+    "lastName": "Green",
+    "address": "77 Geary St., San Francisco",
+    "postal": "94108",
+	"country": "USA",
+	"miles": 1000,
+	"accountType": "business"
+  }]' doc:name="Set Payload" doc:id="a5edcb30-ec2c-434b-a3f7-eedd2dcce386" />
+		<http:request method="PUT" doc:name="Request" doc:id="b9b9d228-7b90-4631-98bd-873a9bdcc254" config-ref="HTTP_Request_configuration" path="/accounts/{ID}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requester-ID" : "XYZ"
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"ID" : "4400"
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+	<flow name="Patch" doc:id="fe3234ea-4175-4e96-8c87-45dc4dd371a5" >
+		<http:listener doc:name="Listener" doc:id="4562d550-47cb-400a-b5f6-494755165df4" config-ref="HTTP_Listener_config_test" path="/accounts/{ID}" allowedMethods="PATCH"/>
+		<set-payload value='#[payload default {
+    "firstName": "Alice",
+    "lastName": "Green",
+    "address": "77 Geary St., San Francisco",
+    "postal": "94108",
+	"country": "USA",
+	"miles": 1000,
+	"accountType": "business"
+  }]' doc:name="Set Payload" doc:id="372fbd78-325d-42e6-ab37-481ce66fd32b" />
+		<http:request method="PATCH" doc:name="Request" doc:id="100df050-4c4d-438e-b660-77f1df410143" config-ref="HTTP_Request_configuration" path="/accounts/{ID}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requester-ID" : "XYZ"
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"ID" : "4400"
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+</mule>

@@ -6,9 +6,7 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<db:config name="Database_Config" doc:name="Database Config" doc:id="53b12ae6-27d8-49dd-8140-51b95c5a14b6" >
-		<db:my-sql-connection host="mudb.learn.mulesoft.com" port="3306" user="mule" password="mule" database="training" />
-	</db:config>
+	
 	<flow name="getAccounts" doc:id="db9e4739-bc11-46da-b63c-fe41388ebc1b" >
 		<db:select doc:name="Select" doc:id="346740a2-ae4a-4e70-90d1-e9cc7f04383c" config-ref="Database_Config">
 			<db:sql ><![CDATA[select * from flights_customers where accountType=:accountType]]></db:sql>

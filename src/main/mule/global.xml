@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="6bb792e2-c8da-484d-ba1e-dbeb9a3417b0" >
+		<db:my-sql-connection host="mudb.learn.mulesoft.com" port="3306" user="mule" password="mule" database="training" />
+	</db:config>
+	<http:listener-config name="Http_Listener_Config">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+	<http:request-config responseTimeout="40000" name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="bf54f4e0-f145-4d9a-a2df-cf4cdaaf8f10" basePath="/api">
+		<http:request-connection host="localhost" port="8081" />
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_config_test" doc:name="HTTP Listener config" doc:id="2732e41c-dcfd-4521-8095-7ba1621c26b6" >
+		<http:listener-connection host="0.0.0.0" port="9090" />
+	</http:listener-config>
+   
+</mule>
